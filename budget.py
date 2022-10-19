@@ -5,62 +5,81 @@ Class - Category
 class Category:
     
     '''
-    Attributes
+    Class Attributes
     '''
     
     name = ''
     ledger = list()
     
     '''
-    Constructor
+    Class Constructor
     '''
     
     def __init__(self, name):
         self.name = name
     
     '''
-    Method - deposit
+    Class Method - deposit
     '''
     
-    def deposit(self, amount, description):
-        self.ledger.append({'amount': amount, 'description': description})
+    def deposit(self, amount, *description):
+        
+        '''
+        Change registration object with variable parameters
+        '''
+        
+        if len(description) > 0:
+            self.ledger.append({'amount': amount, 'description': description})
+        else:
+            self.ledger.append({'amount': amount})
     
     '''
-    Method - withdraw
+    Class Method - withdraw
     '''
     
     def withdraw(self, amount, *description):
-        if self.ledger[0]['amount'] >= amount:
+        
+        '''
+        Check if withdrawal is possible
+        '''
+        
+        if not self.check_funds(amount):
+            return False
+        else:
+            
+            '''
+            If amount is positive, convert to negative
+            '''
+            
             if amount > 0:
                 amount = amount - amount * 2
+            
+            '''
+            Change registration object with variable parameters
+            '''
+            
             if len(description) > 0:
                 self.ledger.append({'amount': amount, 'description': description})
             else:
-                self.ledger.append({'amount': amount, 'description': ''})
+                self.ledger.append({'amount': amount})
+            
             return True
-        else:
-            return False
     
     '''
-    Method - get_balance
+    Class Method - get_balance
     '''
     
     def get_balance(self):
         
         '''
-        Initialize the variable
+        Initialize the variables
         '''
         
         total = 0
-        
-        '''
-        Calculate the number of title padding
-        '''
-        
         padding_length = int((30 - len(self.name)) / 2)
         
         '''
-        Assembling the title string
+        Title
         '''
         
         if len(self.name) % 2 == 0:
@@ -82,24 +101,23 @@ class Category:
             Description + Amount
             '''
             
-            temp3 = self.ledger[i]['description']
-            if isinstance(temp3, str): temp3 = temp3[0:23].ljust(23, ' ')
-            if isinstance(temp3, tuple): temp3 = temp3[0][0:23].ljust(23, ' ')
+            if 'description' in self.ledger[i]:
+                temp3 = self.ledger[i]['description'][0][0:23].ljust(23, ' ')
+            else:
+                temp3 = ' ' * 23
+            #temp3 = self.ledger[i]['description']
+            #if isinstance(temp3, str): temp3 = temp3[0:23].ljust(23, ' ')
+            #if isinstance(temp3, tuple): temp3 = temp3[0][0:23].ljust(23, ' ')
             
             temp4 = self.ledger[i]['amount']
             temp4 = str('{:6.2f}'.format(temp4))
             temp4 = temp4.rjust(7, ' ')
+            total += self.ledger[i]['amount']
             
             print(temp3 + temp4)
             
-            '''
-            Calculate Total
-            '''
-            
-            total += self.ledger[i]['amount']
-            
         '''
-        Display Total
+        Total
         '''
         
         total = str('{:6.2f}'.format(total))
@@ -107,18 +125,73 @@ class Category:
         print(total)
         
     '''
-    Method - transfer
+    Class Method - transfer
     '''
     
-    def transfer(self, amount, instance):
-        print('Hello World')
+    def transfer(self, amount, Instance):
+        
+        '''
+        Check if withdrawal is possible
+        '''
+        
+        if not self.check_funds(amount):
+            return False
+        else:
+            
+            '''
+            If amount is positive, convert to negative
+            '''
+            
+            if amount > 0:
+                amount = amount - amount * 2
+            
+            '''
+            Withdraw executed
+            '''
+            
+            self.ledger.append({'amount': amount, 'description': f'Transfer to {Instance.name}'})
+            
+            '''
+            If amount is negative, convert to positive
+            '''
+            
+            if amount < 0:
+                amount = amount + amount * 2
+            
+            '''
+            Destination category deposits
+            '''
+            
+            Instance.deposit(amount, f'Transfer from {self.name}')
+            
+            '''
+            Return value
+            '''
+            
+            return True
     
     '''
     Method - check_funds
     '''
     
     def check_funds(self, amount):
-        print('Hello World')
+        
+        '''
+        Totalling the category amount
+        '''
+        
+        total = 0
+        for i in range(len(self.ledger)):
+            total += self.ledger[i]['amount']
+        
+        '''
+        Check if withdrawal is possible
+        '''
+        
+        if total < amount:
+            return False
+        else:
+            return True
 
 '''
 Unknown
