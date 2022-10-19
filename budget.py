@@ -48,6 +48,12 @@ class Category:
     def get_balance(self):
         
         '''
+        Initialize the variable
+        '''
+        
+        total = 0
+        
+        '''
         Calculate the number of title padding
         '''
         
@@ -60,21 +66,46 @@ class Category:
         if len(self.name) % 2 == 0:
             temp1 = '*' * padding_length
             temp2 = '*' * padding_length
-            title = temp1 + self.name + temp2
         else:
             temp1 = '*' * padding_length
             temp2 = '*' * (padding_length + 1)
-            title = temp1 + self.name + temp2
+        
+        print(temp1 + self.name + temp2)
         
         '''
         Iterate over a list in an object
         '''
         
         for i in range(len(self.ledger)):
-            description = self.ledger[i]['description']
-            amount = self.ledger[i]['amount']
-            print(description[0:24])
-    
+            
+            '''
+            Description + Amount
+            '''
+            
+            temp3 = self.ledger[i]['description']
+            if isinstance(temp3, str): temp3 = temp3[0:23].ljust(23, ' ')
+            if isinstance(temp3, tuple): temp3 = temp3[0][0:23].ljust(23, ' ')
+            
+            temp4 = self.ledger[i]['amount']
+            temp4 = str('{:6.2f}'.format(temp4))
+            temp4 = temp4.rjust(7, ' ')
+            
+            print(temp3 + temp4)
+            
+            '''
+            Calculate Total
+            '''
+            
+            total += self.ledger[i]['amount']
+            
+        '''
+        Display Total
+        '''
+        
+        total = str('{:6.2f}'.format(total))
+        total = 'Total: ' + total
+        print(total)
+        
     '''
     Method - transfer
     '''
