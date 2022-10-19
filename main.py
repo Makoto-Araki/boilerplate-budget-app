@@ -3,23 +3,38 @@ import budget
 from budget import create_spend_chart
 from unittest import main
 
-food = budget.Category("Food")
-food.deposit(1000, "initial deposit")
-food.withdraw(10.15, "groceries")
-food.withdraw(15.89, "restaurant and more food for dessert")
-print(food.get_balance())
-clothing = budget.Category("Clothing")
-food.transfer(50, clothing)
-clothing.withdraw(25.55)
-clothing.withdraw(100)
-auto = budget.Category("Auto")
-auto.deposit(1000, "initial deposit")
-auto.withdraw(15)
+#food = budget.Category("Food")
+#food.deposit(1000, "initial deposit")
+#food.withdraw(10.15, "groceries")
+#food.withdraw(15.89, "restaurant and more food for dessert")
+#print(food.get_balance())
+#clothing = budget.Category("Clothing")
+#food.transfer(50, clothing)
+#clothing.withdraw(25.55)
+#clothing.withdraw(100)
+#auto = budget.Category("Auto")
+#auto.deposit(1000, "initial deposit")
+#auto.withdraw(15)
+#print(food.get_balance()) # add
+#print(clothing.get_balance()) # add
+#print(auto.get_balance()) # add
+#print(food)
+#print(clothing)
 
-print(food)
-print(clothing)
+#entertainment = budget.Category("Entertainment")
+#food.deposit(900, "deposit")
+#food.withdraw(45.67, "milk, cereal, eggs, bacon, bread")
+#food.transfer(20, entertainment)
+#food.get_balance()
+'''
+*************Food*************
+deposit                 900.00
+milk, cereal, eggs, bac -45.67
+Transfer to Entertainme -20.00
+Total: 834.33
+'''
 
-print(create_spend_chart([food, clothing, auto]))
+#print(create_spend_chart([food, clothing, auto]))
 
 # Run unit tests automatically
-main(module='test_module', exit=False)
+#main(module='test_module', exit=False)
