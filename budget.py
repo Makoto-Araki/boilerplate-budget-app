@@ -40,7 +40,7 @@ class Category:
             return_str += temp3 + temp4 + '\n'
             
         total_str = str('{:6.2f}'.format(total))
-        return_str += 'Total: ' + total_str + '\n'
+        return_str += 'Total: ' + total_str
         return return_str
         
     def transfer(self, amount, Instance):
@@ -63,32 +63,50 @@ class Category:
 def create_spend_chart(categories):
     spent = list()
     total = 0
+    maximum = 0
     if len(categories) <= 4:
+        
+        # Spent
         for instance in categories:
             sum = 0
             for item in instance.ledger:
                 if item['amount'] < 0: sum += item['amount'] * -1
             spent.append({'name': instance.name, 'spent': sum})
             total += sum
+        
+        # Chart Data
         for item in spent:
             item['percentage'] = math.floor((item['spent'] / total * 100) / 10)
             del item['spent']
+            if len(item['name']) > maximum: maximum = len(item['name'])
         
         # Title
         return_str = ''
         return_str += 'Percentage spent by category' + '\n'
         
-        # Y-Axis & chart data
+        # Y-Axis Labels & Chart Data
         for val in [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]:
             return_str += str(val).rjust(3, ' ') + '|'
             for item in spent:
                 if item['percentage'] * 10 >= val: return_str += ' o '
-            return_str += '\n'
+            return_str += ' \n'
         
         # X-Axis
         return_str += ' ' * 4
         for val in range(len(spent)):
             return_str += '---'
         return_str += '-\n'
-        
+
+        # X-Axis Labels
+        for i in range(maximum):
+            return_str += ' ' * 4
+            for item in spent:
+                try:
+                    temp = ' ' + item['name'][i] + ' '
+                except:
+                    temp = ' ' * 3
+                return_str += temp
+            return_str += '\n'
+
+        # Return Value returns
         return return_str
