@@ -1,3 +1,5 @@
+import math
+
 class Category:
     
     def __init__(self, name):
@@ -54,9 +56,39 @@ class Category:
         for item in self.ledger:
             total += item['amount']
         if total < amount:
-          return False
+            return False
         else:
-          return True
+            return True
 
 def create_spend_chart(categories):
-    print('Hello World')
+    spent = list()
+    total = 0
+    if len(categories) <= 4:
+        for instance in categories:
+            sum = 0
+            for item in instance.ledger:
+                if item['amount'] < 0: sum += item['amount'] * -1
+            spent.append({'name': instance.name, 'spent': sum})
+            total += sum
+        for item in spent:
+            item['percentage'] = math.floor((item['spent'] / total * 100) / 10)
+            del item['spent']
+        
+        # Title
+        return_str = ''
+        return_str += 'Percentage spent by category' + '\n'
+        
+        # Y-Axis & chart data
+        for val in [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]:
+            return_str += str(val).rjust(3, ' ') + '|'
+            for item in spent:
+                if item['percentage'] * 10 >= val: return_str += ' o '
+            return_str += '\n'
+        
+        # X-Axis
+        return_str += ' ' * 4
+        for val in range(len(spent)):
+            return_str += '---'
+        return_str += '-\n'
+        
+        return return_str
