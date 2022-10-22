@@ -5,6 +5,25 @@ from unittest import main
 
 '''
 food = budget.Category("Food")
+food.deposit(1000, "initial")
+food.withdraw(10.15, "others")
+food.withdraw(21.15, "others")
+clothing = budget.Category("Clothing")
+clothing.deposit(1000, "initial")
+clothing.withdraw(43.25, "others")
+clothing.withdraw(92.35, "others")
+clothing.withdraw(88.45, "others")
+clothing.withdraw(21.15, "others")
+clothing.withdraw(44.65, "others")
+food.transfer(50, clothing)
+food.transfer(60, clothing)
+#print(food.get_balance())
+#print(clothing.get_balance())
+print(create_spend_chart([food, clothing]))
+'''
+
+'''
+food = budget.Category("Food")
 food.deposit(1000, "initial deposit")
 food.withdraw(10.15, "groceries")
 food.withdraw(15.89, "restaurant and more food for dessert")
@@ -40,4 +59,4 @@ print(create_spend_chart([business, food, entertainment]))
 #'''
 
 # Run unit tests automatically
-main(module='test_module', exit=False)
+#main(module='test_module', exit=False)
